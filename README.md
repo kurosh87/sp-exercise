@@ -177,15 +177,15 @@ This loop proves the state model is not just UI — it's a **working system** wh
 The Proposed Home adapts to account state using the segmented control:
 
 **Verified State (4/5 complete)**  
-![Home Verified](docs/images/home-verified.png)  
+![Home Verified](docs/images/home-verified.jpg)  
 *Readiness card shows progress. "Add cash" is the primary CTA since identity is verified but balance is $0.*
 
 **Funded State (5/5 complete)**  
-![Home Funded](docs/images/home-funded.png)  
+![Home Funded](docs/images/home-funded.jpg)  
 *All setup complete. Primary CTA becomes "Buy bitcoin". Readiness card shows success state.*
 
 **Incomplete State (1/5 complete)**  
-![Home Incomplete](docs/images/home-incomplete.png)  
+![Home Incomplete](docs/images/home-incomplete.jpg)  
 *Email not confirmed. "Next step" card appears with "Confirm email" as primary action.*
 
 ---
@@ -193,11 +193,11 @@ The Proposed Home adapts to account state using the segmented control:
 ### Current vs. Proposed Comparison
 
 **Current Home**  
-![Current Home](docs/images/home-current.png)  
+![Current Home](docs/images/home-current.jpg)  
 *Static "Add / Send" buttons regardless of state. Setup cards scattered as carousel.*
 
 **Proposed Home**  
-![Proposed Home](docs/images/home-proposed-incomplete.png)  
+![Proposed Home](docs/images/home-proposed-incomplete.jpg)  
 *State-aware CTA shows "Confirm email" with "Next step" context card. Readiness model consolidates all setup.*
 
 ---
@@ -205,7 +205,7 @@ The Proposed Home adapts to account state using the segmented control:
 ### Exchange Flow
 
 **Exchange Screen**  
-![Exchange](docs/images/exchange.png)  
+![Exchange](docs/images/exchange.jpg)  
 *Clean one-time exchange. No recurring-buy promo on main screen. "Complete risk profile" CTA appears when needed.*
 
 ---
