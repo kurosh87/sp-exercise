@@ -1,11 +1,15 @@
 import SwiftUI
 
+enum CardIcon {
+    case sfSymbol(name: String, color: Color)
+}
+
 struct SetupCard: Identifiable {
     let id = UUID()
     let label: String
     let headline: String
     let cta: String
-    let emoji: String
+    let icon: CardIcon
 }
 
 struct AssetItem: Identifiable {
@@ -31,7 +35,7 @@ struct ForYouCard: Identifiable {
     let title: String
     let body: String
     let cta: String
-    let emoji: String
+    let icon: CardIcon
     let illustrationColor: Color
 }
 
@@ -60,9 +64,12 @@ enum SampleData {
     ]
 
     static let setupCards: [SetupCard] = [
-        SetupCard(label: "SECURITY", headline: "You need to verify your identity", cta: "Verify", emoji: "🔍"),
-        SetupCard(label: "SECURITY NOTIFICATION", headline: "Upgrade your account security.", cta: "Learn More", emoji: "🔒"),
-        SetupCard(label: "GET STARTED", headline: "Confirm your email address", cta: "Confirm", emoji: "✉️")
+        SetupCard(label: "SECURITY", headline: "You need to verify your identity", cta: "Verify",
+                  icon: .sfSymbol(name: "person.badge.shield.checkmark.fill", color: Color(hex: 0x8AADFF))),
+        SetupCard(label: "SECURITY NOTIFICATION", headline: "Upgrade your account security.", cta: "Learn More",
+                  icon: .sfSymbol(name: "lock.fill", color: Color(hex: 0xFFD166))),
+        SetupCard(label: "GET STARTED", headline: "Confirm your email address", cta: "Confirm",
+                  icon: .sfSymbol(name: "envelope.fill", color: Color(hex: 0x8AADFF)))
     ]
 
     static let assets: [AssetItem] = [
@@ -72,8 +79,12 @@ enum SampleData {
     ]
 
     static let forYouCards: [ForYouCard] = [
-        ForYouCard(title: "Get more bitcoin with scheduled buys", body: "Pay no spread when you set up a recurring bitcoin buy", cta: "Set up", emoji: "🪙", illustrationColor: Color(hex: 0xFFC533)),
-        ForYouCard(title: "Shakepay Card", body: "Earn up to 1.5% in bitcoin cashback on every purchase", cta: "Start earning", emoji: "💳", illustrationColor: Color(hex: 0xFF5C1A))
+        ForYouCard(title: "Get more bitcoin with scheduled buys", body: "Pay no spread when you set up a recurring bitcoin buy", cta: "Set up",
+                   icon: .sfSymbol(name: "bitcoinsign.circle.fill", color: Color(hex: 0xFFB347)),
+                   illustrationColor: Color(hex: 0xFFC533)),
+        ForYouCard(title: "Shakepay Card", body: "Earn up to 1.5% in bitcoin cashback on every purchase", cta: "Start earning",
+                   icon: .sfSymbol(name: "creditcard.fill", color: .white),
+                   illustrationColor: Color(hex: 0xFF5C1A))
     ]
 
     static let doMoreItems: [DoMoreItem] = [
