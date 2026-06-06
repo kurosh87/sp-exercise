@@ -35,7 +35,7 @@ struct RiskProfileView: View {
     }
 }
 
-struct ExchangeView: View {
+struct BuyBitcoinSheet: View {
     var body: some View {
         SetupSheetPlaceholder(
             icon: "bitcoinsign.circle.fill", iconColor: Color(hex: 0xF7931A),

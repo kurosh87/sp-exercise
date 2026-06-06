@@ -89,7 +89,7 @@ struct StateAwareActionAreaView: View {
         case .confirmEmail:        ConfirmEmailView()
         case .verifyIdentity:      VerifyIdentityView()
         case .completeRiskProfile: RiskProfileView()
-        case .buyBitcoin:          ExchangeView()
+        case .buyBitcoin:          BuyBitcoinSheet()
         case .addCash:             EmptyView() // handled by onAdd nav
         }
     }
