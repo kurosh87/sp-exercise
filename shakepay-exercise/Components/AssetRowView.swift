@@ -4,6 +4,13 @@ struct AssetRowView: View {
     let asset: AssetItem
 
     var body: some View {
+        NavigationLink(destination: AssetDetailView(asset: asset)) {
+        rowContent
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var rowContent: some View {
         HStack(spacing: 14) {
             iconView
             VStack(alignment: .leading, spacing: 5) {

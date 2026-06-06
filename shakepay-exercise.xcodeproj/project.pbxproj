@@ -25,7 +25,9 @@
 		85ED3E37D1BD4E7F97EED390 /* StateAwareActionAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4E68FE546D5D5E6CEE9881 /* StateAwareActionAreaView.swift */; };
 		863DD7F25FE6E747834548CA /* AccountState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E543E4035D8F7EDE1AA5EA6 /* AccountState.swift */; };
 		88D60BFA6B6DF010D982F36B /* ActionDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7EA48D02C49AA03EDFD453 /* ActionDestinations.swift */; };
+		943CD66A3A7F35D4271F258D /* AssetInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3154ABD70F8935C02F979AAE /* AssetInsightsView.swift */; };
 		94B626D1BBFAAAD1278D05CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 883E45800D5A88EFEEEA4D58 /* LaunchScreen.storyboard */; };
+		960752118372CD4BCFE675BC /* AssetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629ECBE4277B0895133B6850 /* AssetDetailView.swift */; };
 		97ED895AAEBE7A362CA180F2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB776EC533C3539DC5FC76F7 /* PlaceholderView.swift */; };
 		9B1A7389FA6476FA8DE2C360 /* SetupCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C08F1A7BF246E93118A4EED /* SetupCarouselView.swift */; };
 		ACD49C7247315049FC615BA7 /* AccountReadinessCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D8DD3826B1BCFBBDCAC0CF /* AccountReadinessCard.swift */; };
@@ -41,6 +43,7 @@
 		1D7EA48D02C49AA03EDFD453 /* ActionDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDestinations.swift; sourceTree = "<group>"; };
 		24867D9A7743E43DF9851597 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		2AA3A1444735934A8EE05414 /* ProposedHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposedHomeView.swift; sourceTree = "<group>"; };
+		3154ABD70F8935C02F979AAE /* AssetInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetInsightsView.swift; sourceTree = "<group>"; };
 		31D8DD3826B1BCFBBDCAC0CF /* AccountReadinessCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountReadinessCard.swift; sourceTree = "<group>"; };
 		322672103D4797805D43DDEE /* AddCashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCashView.swift; sourceTree = "<group>"; };
 		3A4577B2F64531B0DCA5DC8C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
@@ -49,6 +52,7 @@
 		52B3D3DD9CD614B902FC3581 /* FlowOptionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowOptionRow.swift; sourceTree = "<group>"; };
 		581DF52E26566299A754FF3E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		5F6E5DBB3C83009358FA11F5 /* shakepay-exercise.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "shakepay-exercise.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		629ECBE4277B0895133B6850 /* AssetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDetailView.swift; sourceTree = "<group>"; };
 		6C17C8CA4A3DFB9F2F021BEA /* SendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendView.swift; sourceTree = "<group>"; };
 		6FAE9A9E94755E387EEF7E69 /* ForYouCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouCardView.swift; sourceTree = "<group>"; };
 		7E543E4035D8F7EDE1AA5EA6 /* AccountState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountState.swift; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				322672103D4797805D43DDEE /* AddCashView.swift */,
+				629ECBE4277B0895133B6850 /* AssetDetailView.swift */,
+				3154ABD70F8935C02F979AAE /* AssetInsightsView.swift */,
 				F0C8C0F9FA35B7778F5357D7 /* FlowNavBar.swift */,
 				52B3D3DD9CD614B902FC3581 /* FlowOptionRow.swift */,
 				6C17C8CA4A3DFB9F2F021BEA /* SendView.swift */,
@@ -205,6 +211,8 @@
 				88D60BFA6B6DF010D982F36B /* ActionDestinations.swift in Sources */,
 				B768408434D8F7BE1159410C /* AddCashView.swift in Sources */,
 				3E788AD30AD2FA7293993F03 /* App.swift in Sources */,
+				960752118372CD4BCFE675BC /* AssetDetailView.swift in Sources */,
+				943CD66A3A7F35D4271F258D /* AssetInsightsView.swift in Sources */,
 				662CDFC0B8D523DC5FBE2C98 /* AssetRowView.swift in Sources */,
 				642F3836B3F3BB87B8AFAB18 /* BalanceHeroView.swift in Sources */,
 				2728B5BF08934E9BEB90C395 /* BottomTabBarView.swift in Sources */,
