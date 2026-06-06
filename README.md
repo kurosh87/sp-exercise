@@ -174,36 +174,39 @@ This loop proves the state model is not just UI — it's a **working system** wh
 
 ### Home States (3 Variants)
 
-> **To capture:** Use the "Incomplete / Verified / Funded" segmented control on Proposed Home tab.
+The Proposed Home adapts to account state using the segmented control:
 
-| Incomplete (1/5) | Verified (3/5) | Funded (5/5) |
-|------------------|----------------|--------------|
-| Readiness card shows "Confirm email" as pending | Readiness card shows "Add cash" as pending | Card collapsed to "Your account is ready" |
-| CTA: "Confirm email" | CTA: "Add cash" | CTA: "Buy bitcoin" |
+**Verified State (4/5 complete)**  
+![Home Verified](docs/images/home-verified.png)  
+*Readiness card shows progress. "Add cash" is the primary CTA since identity is verified but balance is $0.*
+
+**Funded State (5/5 complete)**  
+![Home Funded](docs/images/home-funded.png)  
+*All setup complete. Primary CTA becomes "Buy bitcoin". Readiness card shows success state.*
+
+**Incomplete State (1/5 complete)**  
+![Home Incomplete](docs/images/home-incomplete.png)  
+*Email not confirmed. "Next step" card appears with "Confirm email" as primary action.*
+
+---
+
+### Current vs. Proposed Comparison
+
+**Current Home**  
+![Current Home](docs/images/home-current.png)  
+*Static "Add / Send" buttons regardless of state. Setup cards scattered as carousel.*
+
+**Proposed Home**  
+![Proposed Home](docs/images/home-proposed-incomplete.png)  
+*State-aware CTA shows "Confirm email" with "Next step" context card. Readiness model consolidates all setup.*
+
+---
 
 ### Exchange Flow
 
-> **To capture:** Tap "Buy bitcoin" from Funded state, enter amount, tap Review.
-
-| Main Screen | Order Type Sheet | Success State |
-|-------------|------------------|---------------|
-| Clean amount entry with asset picker | Recurring promo shown here only | "Bought Bitcoin" success overlay |
-
-### Card State Change
-
-> **To capture:** Switch between Incomplete and Funded presets, then open Card tab.
-
-| Not Eligible | Eligible |
-|--------------|----------|
-| Shows checklist: "Confirm email", "Verify identity" | Shows "Get the Shakepay Card" CTA |
-
-### Payments (No Modal)
-
-> **To capture:** Open Payments tab from any state.
-
-| Inline Help Card |
-|------------------|
-| Dismissible education card at top — no blocking modal |
+**Exchange Screen**  
+![Exchange](docs/images/exchange.png)  
+*Clean one-time exchange. No recurring-buy promo on main screen. "Complete risk profile" CTA appears when needed.*
 
 ---
 
