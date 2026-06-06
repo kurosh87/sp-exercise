@@ -17,13 +17,89 @@ A front-end iOS prototype demonstrating **3 system-level UX improvements** to Sh
 
 ---
 
+## Design Approach
+
+### What This Is (and Isn't)
+
+This is a **product-systems prototype**, not a visual redesign or feature expansion.
+
+**What I didn't do:**
+- Change Shakepay's colors, typography, or iconography
+- Add new tabs or product features  
+- Redesign the visual language
+- Add backend integration or real payment processing
+
+**What I did:**
+- Identified a single shared state model (`AccountState`) as the intervention point
+- Made all first-click screens respond to that state
+- Removed cognitive interference during money actions
+
+**Core principle:** "Clarity through state modeling, not visual polish."
+
+### The Problem I Observed
+
+In reviewing the current Shakepay app flow:
+
+1. **Blockers discovered late** — Users can tap "Buy bitcoin" with $0 balance or unverified identity, only discovering the blocker inside the flow
+2. **Setup state scattered** — Individual setup cards (Confirm email, Verify identity) appear as separate promotional interruptions rather than a unified account health indicator  
+3. **Promotions interrupt task intent** — The recurring-buy promo appears on the one-time Exchange screen, the Card CTA always says "Get the Card" even when not eligible, and Payments opens with a blocking modal
+
+### The Hypothesis
+
+> If we make account state legible on Home and use it to drive all first-click screens, users will understand blockers before entering flows and complete tasks with less cognitive friction.
+
+### The Intervention
+
+Three changes, all derived from the same `AccountState` model:
+
+| Change | What It Does | State Field(s) |
+|--------|--------------|----------------|
+| **1. Readiness Model** | Makes state **legible** | All fields |
+| **2. State-Aware Actions** | Makes state **actionable** | `nextBestAction()` |
+| **3. De-emphasize Promos** | Removes **interference** | Contextual gating |
+
+### How the Changes Work Together
+
+```
+AccountState (single source of truth)
+    │
+    ├── Change 1: Home shows "2 of 5 complete" 
+    │   (user sees what's blocking them)
+    │
+    ├── Change 2: Home CTA becomes "Confirm email" (not "Add / Send")
+    │   (user can only take actions they're ready for)
+    │
+    ├── Change 3: Exchange doesn't show recurring promo during one-time buy
+    │   (user completes tasks without promotional interruptions)
+    │
+    └── Result: User sees blockers early, enters only ready flows, 
+        completes tasks without cognitive interference
+```
+
+### Proof: The Failure → Recovery Loop
+
+The most important signal this prototype sends is the **end-to-end system working**:
+
+1. **Try buy BTC** → blocked (no cash)
+2. **Home shows "Add cash"** → tap it
+3. **Interac e-Transfer** → $100 added to balance
+4. **Home now shows "Buy bitcoin"** → tap it
+5. **Exchange opens** → enter amount → confirm
+6. **Success overlay** → Activity logs both transactions
+
+This loop proves the state model is not just UI — it's a **working system** where state updates in one place propagate to all screens.
+
+---
+
 ## The 3 Changes
 
 ### 1. Account Readiness Model (Home Only)
 
-**Problem:** Setup and security prompts were scattered across the Home screen as a carousel of individual cards.
+**Problem:** Setup and security prompts were scattered across the Home screen as a carousel of individual cards. Users could not see their overall account state in one place.
 
-**Solution:** A single structured readiness card showing all setup steps, completion progress, and clear "X of 5 complete" indicator.
+**Decision:** Replace the fragmented carousel with a single structured readiness card showing all setup steps, completion progress, and a clear "X of 5 complete" indicator.
+
+**Tradeoff:** Removed individual setup cards from Home. The readiness card collapses to a compact success state when all steps are done, reducing visual noise for completed users.
 
 **What it solves:** Users can see their overall account state in one place instead of discovering blockers late in flows.
 
@@ -39,9 +115,24 @@ A front-end iOS prototype demonstrating **3 system-level UX improvements** to Sh
 
 ### 2. State-Aware Primary Actions
 
-**Problem:** Home CTA was always "Add / Send" regardless of account state. Users could enter flows they couldn't complete.
+**Problem:** Home CTA was always "Add / Send" regardless of account state. Users could enter flows they couldn't complete (e.g., buying BTC with $0 balance or unverified identity).
 
-**Solution:** The primary action adapts dynamically based on `AccountState`.
+**Decision:** The primary action adapts dynamically based on `AccountState` using a `nextBestAction()` priority function:
+
+1. If `emailConfirmed` is false → "Confirm email"
+2. Else if `identityVerified` is false → "Verify identity"  
+3. Else if `riskProfileComplete` is false → "Complete risk profile"
+4. Else if `cashBalance == 0` → "Add cash"
+5. Else → "Buy bitcoin"
+
+**Tradeoff:** The static "Add / Send" buttons are replaced by a dynamic CTA. This removes the familiar always-available "Add" button, but prevents users from entering blocked flows.
+
+**What it solves:** Users don't enter blocked flows. The app surfaces the next required action instead of showing generic buttons.
+
+**Key behaviors:**
+- "Next step" card appears for blocking actions with contextual description
+- Buttons are side-by-side (primary blue + secondary gray) matching Shakepay's pattern
+- Transitions smoothly between states with animation
 
 | State | Primary CTA | Secondary CTA |
 |-------|-------------|---------------|
@@ -51,30 +142,29 @@ A front-end iOS prototype demonstrating **3 system-level UX improvements** to Sh
 | $0 cash balance | **Add cash** | Send |
 | All ready | **Buy bitcoin** | Send |
 
-**What it solves:** Users don't enter blocked flows. The app surfaces the next required action instead of showing generic buttons.
-
-**Key behaviors:**
-- "Next step" card appears for blocking actions with contextual description
-- Buttons are side-by-side (primary blue + secondary gray) matching Shakepay's pattern
-- Transitions smoothly between states with animation
-
 **File:** `Components/StateAwareActionAreaView.swift`
 
 ---
 
 ### 3. De-emphasize Promotions During Task Intent
 
-**Problem:** Promotional content interrupted core transaction flows.
+**Problem:** Promotional content interrupted core transaction flows. The recurring-buy promo banner sat on the main Exchange screen. The Card marketing CTA blocked task execution. Payments used a blocking modal on first open.
 
-**Solution:** Promotions still exist but are moved out of core transaction paths.
+**Decision:** Keep promotional content, but move it out of core transaction paths:
+
+- **Recurring buy promo** — moved to the Order Type Sheet only (not shown on main Exchange screen)
+- **Card marketing CTA** — becomes state-aware: shows setup requirements when user is not eligible, shows "Get the Shakepay Card" when eligible
+- **Payments modal** — removed entirely; replaced with an inline dismissible education card
+
+**Tradeoff:** Promotional content is less visible on main screens. But task completion clarity is significantly improved because promotions no longer block or interrupt money actions.
+
+**What it solves:** Reduces cognitive noise during money actions. Users can complete tasks without promotional interruptions.
 
 | Element | Before | After |
 |---------|--------|-------|
 | Recurring buy promo | On main Exchange screen | Moved to Order Type Sheet only |
 | Card marketing CTA | Always "Get the Card" | State-aware: shows requirements when not eligible |
 | Payments first open | Blocking modal | Inline dismissible education card |
-
-**What it solves:** Reduces cognitive noise during money actions. Users can complete tasks without promotional interruptions.
 
 **Files:** `Flows/ExchangeView.swift` · `Tabs/CardView.swift` · `Tabs/PaymentsView.swift`
 
@@ -275,6 +365,17 @@ shakepay-exercise/
 ### Why System > UI
 
 The evaluation criteria are **systems thinking, judgment, and tradeoffs** — not UI craft. Every visual decision serves the state model.
+
+### Scope Control
+
+To maintain 2-week feasibility, these were explicitly excluded:
+
+- Backend integration or real payment processing
+- Crypto wallet functionality
+- Push notifications
+- Analytics or tracking
+- Multiple competing Home variants
+- Unit tests (prototype only)
 
 ---
 
