@@ -22,6 +22,7 @@
 		642F3836B3F3BB87B8AFAB18 /* BalanceHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42366F740B64D73A092EBAA8 /* BalanceHeroView.swift */; };
 		64BC0C788DED12532A688D56 /* FlowOptionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B3D3DD9CD614B902FC3581 /* FlowOptionRow.swift */; };
 		662CDFC0B8D523DC5FBE2C98 /* AssetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5102E83C09AD223B7700CAC5 /* AssetRowView.swift */; };
+		6C72794F0CF2E9C18F245EEC /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3603E7C99334701EB62114CB /* QRScannerView.swift */; };
 		6EE880CA61B55EF4874C1F3B /* VariantToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1321E8A3FFBD1291BE082D /* VariantToggle.swift */; };
 		6EF1A35F50F9390FF3AB8602 /* ProposedHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA3A1444735934A8EE05414 /* ProposedHomeView.swift */; };
 		6EFB945A26ADEFFA7BA38825 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581DF52E26566299A754FF3E /* RootView.swift */; };
@@ -52,6 +53,7 @@
 		31D8DD3826B1BCFBBDCAC0CF /* AccountReadinessCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountReadinessCard.swift; sourceTree = "<group>"; };
 		322672103D4797805D43DDEE /* AddCashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCashView.swift; sourceTree = "<group>"; };
 		33D65A2BD6FCA80E321F94A2 /* ExchangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeView.swift; sourceTree = "<group>"; };
+		3603E7C99334701EB62114CB /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
 		3A4577B2F64531B0DCA5DC8C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		42366F740B64D73A092EBAA8 /* BalanceHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceHeroView.swift; sourceTree = "<group>"; };
 		5102E83C09AD223B7700CAC5 /* AssetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetRowView.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				3154ABD70F8935C02F979AAE /* AssetInsightsView.swift */,
 				F0C8C0F9FA35B7778F5357D7 /* FlowNavBar.swift */,
 				52B3D3DD9CD614B902FC3581 /* FlowOptionRow.swift */,
+				3603E7C99334701EB62114CB /* QRScannerView.swift */,
 				6C17C8CA4A3DFB9F2F021BEA /* SendView.swift */,
 			);
 			path = Flows;
@@ -249,6 +252,7 @@
 				1F6BF89E71239926111EEFF1 /* PaymentsView.swift in Sources */,
 				97ED895AAEBE7A362CA180F2 /* PlaceholderView.swift in Sources */,
 				6EF1A35F50F9390FF3AB8602 /* ProposedHomeView.swift in Sources */,
+				6C72794F0CF2E9C18F245EEC /* QRScannerView.swift in Sources */,
 				6EFB945A26ADEFFA7BA38825 /* RootView.swift in Sources */,
 				196DF27B3319B04BBF5F7366 /* SendView.swift in Sources */,
 				9B1A7389FA6476FA8DE2C360 /* SetupCarouselView.swift in Sources */,

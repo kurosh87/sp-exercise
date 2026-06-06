@@ -11,6 +11,7 @@ private struct Recipient: Identifiable {
 struct PaymentsView: View {
     @State private var searchText = ""
     @State private var showEducation = true
+    @State private var showScanner = false
 
     private let recipients: [Recipient] = [
         Recipient(name: "Theodore Calvin",   handle: "@theodore",  initials: "TC", color: Color(hex: 0x2A6BDE)),
@@ -35,6 +36,9 @@ struct PaymentsView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $showScanner) {
+            QRScannerView()
+        }
     }
 
     // MARK: Nav
@@ -46,7 +50,7 @@ struct PaymentsView: View {
                 .foregroundColor(.white)
             HStack {
                 Spacer()
-                Button {} label: {
+                Button { showScanner = true } label: {
                     Image(systemName: "qrcode.viewfinder")
                         .font(.system(size: 22, weight: .semibold))
                         .foregroundColor(.white)
