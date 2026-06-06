@@ -16,7 +16,9 @@ struct RootView: View {
         ZStack(alignment: .bottom) {
             AppTheme.background.ignoresSafeArea()
             contentView
-            BottomTabBarView(selected: $selectedTab)
+            if selectedTab != 2 {
+                BottomTabBarView(selected: $selectedTab)
+            }
         }
         .preferredColorScheme(.dark)
     }
