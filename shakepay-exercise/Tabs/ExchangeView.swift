@@ -140,10 +140,12 @@ struct AssetPickerSheet: View {
 struct ExchangeView: View {
     let accountState: AccountState
     @Binding var selectedTab: Int
+    @ObservedObject var demoState: AppDemoState
 
-    init(accountState: AccountState, selectedTab: Binding<Int>) {
+    init(accountState: AccountState, selectedTab: Binding<Int>, demoState: AppDemoState) {
         self.accountState = accountState
         self._selectedTab = selectedTab
+        self.demoState = demoState
     }
     @State private var enteredAmount = ""
     @State private var orderType: OrderType = .oneTime
@@ -151,6 +153,7 @@ struct ExchangeView: View {
     @State private var showPayPicker = false
     @State private var showReceivePicker = false
     @State private var showRiskProfile = false
+    @State private var showAddCash = false
 
     @State private var payAsset: ExchangeAsset = assetCatalog[0]     // Cash
     @State private var receiveAsset: ExchangeAsset = assetCatalog[2] // Bitcoin
@@ -188,11 +191,17 @@ struct ExchangeView: View {
                         quickAmounts
                         numPad
                         ctaButton
-                        Color.clear.frame(height: 120)
+                        Color.clear.frame(height: 80)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 20)
                 }
+            }
+            // Floating demo state pill
+            VStack {
+                Spacer()
+                demoPill
+                    .padding(.bottom, 20)
             }
         }
         .toolbar(.hidden, for: .navigationBar)
@@ -200,6 +209,7 @@ struct ExchangeView: View {
         .sheet(isPresented: $showPayPicker)  { AssetPickerSheet(selected: $payAsset) }
         .sheet(isPresented: $showReceivePicker) { AssetPickerSheet(selected: $receiveAsset) }
         .fullScreenCover(isPresented: $showRiskProfile) { RiskProfileView() }
+        .fullScreenCover(isPresented: $showAddCash)     { AddCashView() }
     }
 
     // MARK: - Nav bar
@@ -425,6 +435,34 @@ struct ExchangeView: View {
         )
     }
 
+    // MARK: - Demo state pill (CEO demo only)
+
+    private var demoPill: some View {
+        HStack(spacing: 0) {
+            ForEach(DemoPreset.allCases, id: \.self) { preset in
+                Button {
+                    let sel = UISelectionFeedbackGenerator()
+                    sel.selectionChanged()
+                    withAnimation(.easeInOut(duration: 0.2)) { demoState.preset = preset }
+                } label: {
+                    Text(preset.rawValue)
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(demoState.preset == preset ? .white : AppTheme.textMuted)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(
+                            Capsule().fill(demoState.preset == preset
+                                ? AppTheme.accentBlue : Color.clear)
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(4)
+        .background(Capsule().fill(AppTheme.card))
+        .overlay(Capsule().stroke(AppTheme.stroke, lineWidth: 1))
+    }
+
     // MARK: - Quick amount chips
 
     private var quickAmounts: some View {
@@ -484,6 +522,8 @@ struct ExchangeView: View {
     }
 
     private func handleKey(_ key: String) {
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
         switch key {
         case "⌫":
             if !enteredAmount.isEmpty { enteredAmount.removeLast() }
@@ -499,7 +539,13 @@ struct ExchangeView: View {
 
     private var ctaButton: some View {
         Button {
-            if ctaState == .needsRiskProfile { showRiskProfile = true }
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            switch ctaState {
+            case .needsRiskProfile: showRiskProfile = true
+            case .needsCash:        showAddCash = true
+            case .ready:            break
+            }
         } label: {
             Text(ctaLabel)
                 .font(.system(size: 18, weight: .bold))

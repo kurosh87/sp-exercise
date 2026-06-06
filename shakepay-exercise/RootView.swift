@@ -29,7 +29,7 @@ struct RootView: View {
         case 1:
             CardView(accountState: demoState.accountState)
         case 2:
-            ExchangeView(accountState: demoState.accountState, selectedTab: $selectedTab)
+            ExchangeView(accountState: demoState.accountState, selectedTab: $selectedTab, demoState: demoState)
         case 3:
             PaymentsView()
         case 4:

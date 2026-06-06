@@ -1,17 +1,42 @@
 import SwiftUI
 
-// MARK: - Full-screen Risk Profile placeholder (matches real Shakepay flow)
+// MARK: - Two-step Risk Profile flow
 
 struct RiskProfileView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var selected: Int? = nil
+    @State private var step = 1
+    @State private var netWorthSelection: Int? = nil
+    @State private var experienceSelection: Int? = nil
+
+    var body: some View {
+        ZStack {
+            AppTheme.background.ignoresSafeArea()
+            if step == 1 {
+                NetWorthStep(selected: $netWorthSelection) {
+                    withAnimation(.easeInOut(duration: 0.25)) { step = 2 }
+                } onClose: { dismiss() }
+            } else {
+                ExperienceStep(selected: $experienceSelection) {
+                    dismiss() // Done — in prod would mark riskProfileComplete = true
+                } onBack: {
+                    withAnimation(.easeInOut(duration: 0.25)) { step = 1 }
+                } onClose: { dismiss() }
+            }
+        }
+        .toolbar(.hidden, for: .navigationBar)
+    }
+}
+
+// MARK: - Step 1: Net worth
+
+private struct NetWorthStep: View {
+    @Binding var selected: Int?
+    let onNext: () -> Void
+    let onClose: () -> Void
 
     private struct Option: Identifiable {
-        let id: Int
-        let emoji: String
-        let label: String
+        let id: Int; let emoji: String; let label: String
     }
-
     private let options: [Option] = [
         Option(id: 0, emoji: "🤑", label: "Less than $50k"),
         Option(id: 1, emoji: "💵", label: "$50k – $100k"),
@@ -26,135 +51,212 @@ struct RiskProfileView: View {
         ZStack {
             AppTheme.background.ignoresSafeArea()
             VStack(spacing: 0) {
-                navBar
+                stepNavBar(onBack: nil, onClose: onClose, step: 1, total: 2)
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 24) {
-                        questionHeader
-                        optionsList
+                        questionHeader(
+                            title: "What is your approximate net worth?",
+                            subtitle: "The total value of your assets minus your liabilities."
+                        )
+                        VStack(spacing: 10) {
+                            ForEach(options) { opt in
+                                optionRow(id: opt.id, emoji: opt.emoji, label: opt.label,
+                                          selected: $selected)
+                            }
+                        }
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 28)
                     .padding(.bottom, 120)
                 }
             }
-            // Fixed Next button
-            VStack {
-                Spacer()
-                nextButton
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 40)
-                    .background(
-                        LinearGradient(
-                            colors: [AppTheme.background.opacity(0), AppTheme.background],
-                            startPoint: .top, endPoint: .bottom
-                        )
-                        .frame(height: 120)
-                        .allowsHitTesting(false)
-                    )
-            }
+            bottomCTA(label: "Next", enabled: selected != nil, action: onNext)
         }
-        .toolbar(.hidden, for: .navigationBar)
     }
+}
 
-    // MARK: Nav
+// MARK: - Step 2: Investment experience
 
-    private var navBar: some View {
-        HStack {
-            Button { dismiss() } label: {
+private struct ExperienceStep: View {
+    @Binding var selected: Int?
+    let onNext: () -> Void
+    let onBack: () -> Void
+    let onClose: () -> Void
+
+    private struct Option: Identifiable {
+        let id: Int; let emoji: String; let label: String; let subtitle: String
+    }
+    private let options: [Option] = [
+        Option(id: 0, emoji: "🌱", label: "No experience",    subtitle: "I'm new to investing"),
+        Option(id: 1, emoji: "📖", label: "Some experience",  subtitle: "I've made a few trades"),
+        Option(id: 2, emoji: "📈", label: "Experienced",      subtitle: "I invest regularly"),
+        Option(id: 3, emoji: "🧠", label: "Very experienced", subtitle: "I'm a seasoned investor"),
+    ]
+
+    var body: some View {
+        ZStack {
+            AppTheme.background.ignoresSafeArea()
+            VStack(spacing: 0) {
+                stepNavBar(onBack: onBack, onClose: onClose, step: 2, total: 2)
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 24) {
+                        questionHeader(
+                            title: "What is your investment experience?",
+                            subtitle: "How familiar are you with buying and selling financial assets?"
+                        )
+                        VStack(spacing: 10) {
+                            ForEach(options) { opt in
+                                optionRowWithSubtitle(id: opt.id, emoji: opt.emoji,
+                                                     label: opt.label, subtitle: opt.subtitle,
+                                                     selected: $selected)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 28)
+                    .padding(.bottom, 120)
+                }
+            }
+            bottomCTA(label: "Done", enabled: selected != nil, action: onNext)
+        }
+    }
+}
+
+// MARK: - Shared sub-views
+
+private func stepNavBar(onBack: (() -> Void)?, onClose: @escaping () -> Void, step: Int, total: Int) -> some View {
+    HStack {
+        if let onBack {
+            Button(action: onBack) {
                 Image(systemName: "chevron.left")
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.white)
                     .frame(width: 44, height: 44)
             }
-            Spacer()
-            Button { dismiss() } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.white)
-                    .frame(width: 44, height: 44)
+        } else {
+            Color.clear.frame(width: 44, height: 44)
+        }
+        Spacer()
+        // Step indicator dots
+        HStack(spacing: 6) {
+            ForEach(1...total, id: \.self) { i in
+                Capsule()
+                    .fill(i == step ? AppTheme.accentBlue : Color.white.opacity(0.2))
+                    .frame(width: i == step ? 20 : 8, height: 8)
+                    .animation(.easeInOut(duration: 0.2), value: step)
             }
         }
-        .padding(.horizontal, 12)
-        .frame(height: 56)
-        .padding(.top, 8)
-    }
-
-    // MARK: Question header
-
-    private var questionHeader: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("What is your approximate net worth?")
-                .font(.system(size: 28, weight: .bold, design: .rounded))
+        Spacer()
+        Button(action: onClose) {
+            Image(systemName: "xmark")
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white)
-                .fixedSize(horizontal: false, vertical: true)
-            Text("The total value of your assets minus your liabilities.")
-                .font(.system(size: 16))
-                .foregroundColor(AppTheme.textMuted)
+                .frame(width: 44, height: 44)
         }
     }
+    .padding(.horizontal, 12)
+    .frame(height: 56)
+    .padding(.top, 8)
+}
 
-    // MARK: Options list
-
-    private var optionsList: some View {
-        VStack(spacing: 10) {
-            ForEach(options) { opt in
-                optionRow(opt)
-            }
-        }
+private func questionHeader(title: String, subtitle: String) -> some View {
+    VStack(alignment: .leading, spacing: 10) {
+        Text(title)
+            .font(.system(size: 28, weight: .bold, design: .rounded))
+            .foregroundColor(.white)
+            .fixedSize(horizontal: false, vertical: true)
+        Text(subtitle)
+            .font(.system(size: 16))
+            .foregroundColor(AppTheme.textMuted)
     }
+}
 
-    private func optionRow(_ opt: Option) -> some View {
-        let isSelected = selected == opt.id
-        return Button {
-            withAnimation(.easeInOut(duration: 0.15)) { selected = opt.id }
-        } label: {
-            HStack(spacing: 14) {
-                Text(opt.emoji)
-                    .font(.system(size: 22))
-                    .frame(width: 32)
-                Text(opt.label)
+private func optionRow(id: Int, emoji: String, label: String, selected: Binding<Int?>) -> some View {
+    let isSelected = selected.wrappedValue == id
+    return Button {
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
+        withAnimation(.easeInOut(duration: 0.15)) { selected.wrappedValue = id }
+    } label: {
+        HStack(spacing: 14) {
+            Text(emoji).font(.system(size: 22)).frame(width: 32)
+            Text(label)
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundColor(.white)
+            Spacer()
+            checkBox(isSelected: isSelected)
+        }
+        .padding(.horizontal, 18).padding(.vertical, 18)
+        .background(RoundedRectangle(cornerRadius: 18, style: .continuous)
+            .fill(isSelected ? AppTheme.accentBlue.opacity(0.10) : AppTheme.card))
+        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous)
+            .stroke(isSelected ? AppTheme.accentBlue.opacity(0.5) : AppTheme.stroke, lineWidth: 1))
+    }
+    .buttonStyle(.plain)
+}
+
+private func optionRowWithSubtitle(id: Int, emoji: String, label: String, subtitle: String, selected: Binding<Int?>) -> some View {
+    let isSelected = selected.wrappedValue == id
+    return Button {
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
+        withAnimation(.easeInOut(duration: 0.15)) { selected.wrappedValue = id }
+    } label: {
+        HStack(spacing: 14) {
+            Text(emoji).font(.system(size: 22)).frame(width: 32)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(label)
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.white)
-                Spacer()
-                ZStack {
-                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .stroke(isSelected ? AppTheme.accentBlue : Color.white.opacity(0.25), lineWidth: 2)
-                        .frame(width: 26, height: 26)
-                    if isSelected {
-                        RoundedRectangle(cornerRadius: 4, style: .continuous)
-                            .fill(AppTheme.accentBlue)
-                            .frame(width: 14, height: 14)
-                    }
-                }
+                Text(subtitle)
+                    .font(.system(size: 13))
+                    .foregroundColor(AppTheme.textMuted)
             }
-            .padding(.horizontal, 18)
-            .padding(.vertical, 18)
-            .background(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(isSelected ? AppTheme.accentBlue.opacity(0.10) : AppTheme.card)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .stroke(isSelected ? AppTheme.accentBlue.opacity(0.5) : AppTheme.stroke, lineWidth: 1)
-            )
+            Spacer()
+            checkBox(isSelected: isSelected)
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 18).padding(.vertical, 18)
+        .background(RoundedRectangle(cornerRadius: 18, style: .continuous)
+            .fill(isSelected ? AppTheme.accentBlue.opacity(0.10) : AppTheme.card))
+        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous)
+            .stroke(isSelected ? AppTheme.accentBlue.opacity(0.5) : AppTheme.stroke, lineWidth: 1))
     }
+    .buttonStyle(.plain)
+}
 
-    // MARK: Next button
+private func checkBox(isSelected: Bool) -> some View {
+    ZStack {
+        RoundedRectangle(cornerRadius: 6, style: .continuous)
+            .stroke(isSelected ? AppTheme.accentBlue : Color.white.opacity(0.25), lineWidth: 2)
+            .frame(width: 26, height: 26)
+        if isSelected {
+            RoundedRectangle(cornerRadius: 4, style: .continuous)
+                .fill(AppTheme.accentBlue)
+                .frame(width: 14, height: 14)
+        }
+    }
+}
 
-    private var nextButton: some View {
-        Button { dismiss() } label: {
-            Text("Next")
+private func bottomCTA(label: String, enabled: Bool, action: @escaping () -> Void) -> some View {
+    VStack {
+        Spacer()
+        Button(action: action) {
+            Text(label)
                 .font(.system(size: 18, weight: .bold))
-                .foregroundColor(selected != nil ? .white : Color.white.opacity(0.4))
+                .foregroundColor(enabled ? .white : Color.white.opacity(0.35))
                 .frame(maxWidth: .infinity)
                 .frame(height: 64)
-                .background(
-                    Capsule().fill(selected != nil ? AppTheme.accentBlue : AppTheme.accentBlue.opacity(0.35))
-                )
+                .background(Capsule().fill(enabled ? AppTheme.accentBlue : AppTheme.accentBlue.opacity(0.3)))
         }
         .buttonStyle(.plain)
-        .disabled(selected == nil)
+        .disabled(!enabled)
+        .padding(.horizontal, 20)
+        .padding(.bottom, 40)
     }
+    .background(
+        LinearGradient(colors: [AppTheme.background.opacity(0), AppTheme.background],
+                       startPoint: .top, endPoint: .bottom)
+        .frame(height: 130).allowsHitTesting(false),
+        alignment: .bottom
+    )
 }
