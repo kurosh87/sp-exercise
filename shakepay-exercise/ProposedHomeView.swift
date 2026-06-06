@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ProposedHomeView: View {
+    @Binding var showProposed: Bool
     @State private var demoPreset: DemoPreset = .incompleteSetup
     @State private var showAdd  = false
     @State private var showSend = false
@@ -13,12 +14,15 @@ struct ProposedHomeView: View {
                 AppTheme.background.ignoresSafeArea()
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 24) {
-                        // Demo switcher
-                        DemoStateSwitcher(preset: $demoPreset)
+                        // Variant toggle
+                        VariantToggle(showProposed: $showProposed)
                             .padding(.horizontal, 24)
                             .padding(.top, 4)
 
-                        // Header + hero + state-aware actions + readiness card
+                        // Demo state switcher
+                        DemoStateSwitcher(preset: $demoPreset)
+                            .padding(.horizontal, 24)
+
                         VStack(spacing: 24) {
                             HeaderView()
                             ProposedBalanceHero(balanceText: demoPreset.balanceDisplay)
@@ -31,7 +35,6 @@ struct ProposedHomeView: View {
                         }
                         .padding(.horizontal, 24)
 
-                        // Asset list + lower sections
                         VStack(spacing: 24) {
                             assetList
                             ForYouSectionView(cards: SampleData.forYouCards)
@@ -51,9 +54,7 @@ struct ProposedHomeView: View {
 
     private var assetList: some View {
         VStack(spacing: 12) {
-            ForEach(SampleData.assets) { asset in
-                AssetRowView(asset: asset)
-            }
+            ForEach(SampleData.assets) { asset in AssetRowView(asset: asset) }
         }
     }
 }

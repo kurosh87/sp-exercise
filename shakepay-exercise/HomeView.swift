@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Binding var showProposed: Bool
     @State private var showAdd  = false
     @State private var showSend = false
 
@@ -10,6 +11,11 @@ struct HomeView: View {
                 AppTheme.background.ignoresSafeArea()
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 24) {
+                        // Variant toggle — lives in scroll, never overlaps nav screens
+                        VariantToggle(showProposed: $showProposed)
+                            .padding(.horizontal, 24)
+                            .padding(.top, 4)
+
                         VStack(spacing: 24) {
                             HeaderView()
                             BalanceHeroView()
@@ -41,9 +47,7 @@ struct HomeView: View {
 
     private var assetList: some View {
         VStack(spacing: 12) {
-            ForEach(SampleData.assets) { asset in
-                AssetRowView(asset: asset)
-            }
+            ForEach(SampleData.assets) { asset in AssetRowView(asset: asset) }
         }
     }
 }
