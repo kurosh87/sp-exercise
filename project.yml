@@ -39,6 +39,7 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleIconName: AppIcon
         ITSAppUsesNonExemptEncryption: false
+        NSCameraUsageDescription: Scan a crypto address or Lightning invoice QR code to send payments.
         LSRequiresIPhoneOS: true
         UIApplicationSupportsIndirectInputEvents: true
         UILaunchStoryboardName: LaunchScreen
