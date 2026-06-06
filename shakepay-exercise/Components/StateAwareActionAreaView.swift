@@ -57,25 +57,22 @@ struct StateAwareActionAreaView: View {
     // MARK: Action buttons
 
     private var actionButtons: some View {
-        VStack(spacing: 12) {
-            // Primary blue action
-            PrimaryActionButton(title: action.title) {
-                activeSheet = .primary
-            }
-
-            // Secondary row: Add cash + Send (or just Send when primary is add cash)
-            if action != .addCash && action != .buyBitcoin {
+        Group {
+            if action.showsNextStepCard {
+                // Setup incomplete: primary CTA full-width, then Add cash + Send side by side
+                VStack(spacing: 12) {
+                    PrimaryActionButton(title: action.title) { activeSheet = .primary }
+                    HStack(spacing: 14) {
+                        SecondaryActionButton(title: "Add cash") { activeSheet = .addCash }
+                        SecondaryActionButton(title: "Send") { activeSheet = .send }
+                    }
+                }
+            } else {
+                // Setup complete: primary + Send side by side
                 HStack(spacing: 14) {
-                    SecondaryActionButton(title: "Add cash") { activeSheet = .addCash }
+                    PrimaryActionButton(title: action.title) { activeSheet = .primary }
                     SecondaryActionButton(title: "Send") { activeSheet = .send }
                 }
-            } else if action == .buyBitcoin {
-                SecondaryActionButton(title: "Send") { activeSheet = .send }
-                    .frame(maxWidth: .infinity)
-            } else {
-                // addCash is primary — show Send as secondary full-width
-                SecondaryActionButton(title: "Send") { activeSheet = .send }
-                    .frame(maxWidth: .infinity)
             }
         }
     }
