@@ -139,12 +139,12 @@ struct AssetPickerSheet: View {
 
 struct ExchangeView: View {
     let accountState: AccountState
+    @Binding var selectedTab: Int
 
-    init(accountState: AccountState) {
+    init(accountState: AccountState, selectedTab: Binding<Int>) {
         self.accountState = accountState
+        self._selectedTab = selectedTab
     }
-
-    @Environment(\.dismiss) private var dismiss
     @State private var enteredAmount = ""
     @State private var orderType: OrderType = .oneTime
     @State private var showOrderSheet = false
@@ -184,7 +184,6 @@ struct ExchangeView: View {
                     VStack(spacing: 16) {
                         exchangeCards.padding(.top, 12)
                         rateLabel
-                        blockerCard
                         numPad
                         ctaButton
                         Color.clear.frame(height: 120)
@@ -208,7 +207,7 @@ struct ExchangeView: View {
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
             HStack {
-                Button { dismiss() } label: {
+                Button { selectedTab = 0 } label: {
                     ZStack {
                         Circle().fill(AppTheme.button).frame(width: 38, height: 38)
                         Image(systemName: "chevron.left")
