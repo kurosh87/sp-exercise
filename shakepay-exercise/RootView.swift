@@ -1,11 +1,16 @@
 import SwiftUI
 
+// MARK: - Shared observable state so demo switcher on Home drives all tabs
+
+final class AppDemoState: ObservableObject {
+    @Published var preset: DemoPreset = .incompleteSetup
+    var accountState: AccountState { preset.state }
+}
+
 struct RootView: View {
     @State private var selectedTab = 0
     @State private var showProposed = false
-
-    // Shared demo account state — same across all tabs
-    private let accountState = AccountState.incompleteSetup
+    @StateObject private var demoState = AppDemoState()
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -20,16 +25,16 @@ struct RootView: View {
     private var contentView: some View {
         switch selectedTab {
         case 1:
-            CardView(accountState: accountState)
+            CardView(accountState: demoState.accountState)
         case 2:
-            ExchangeView(accountState: accountState, selectedTab: $selectedTab)
+            ExchangeView(accountState: demoState.accountState, selectedTab: $selectedTab)
         case 3:
             PaymentsView()
         case 4:
             PlaceholderView(title: "Activity", icon: "clock.fill")
         default:
             if showProposed {
-                ProposedHomeView(showProposed: $showProposed)
+                ProposedHomeView(showProposed: $showProposed, demoState: demoState)
                     .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
             } else {
                 HomeView(showProposed: $showProposed)

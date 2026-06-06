@@ -2,11 +2,14 @@ import SwiftUI
 
 struct ProposedHomeView: View {
     @Binding var showProposed: Bool
-    @State private var demoPreset: DemoPreset = .incompleteSetup
+    @ObservedObject var demoState: AppDemoState
     @State private var showAdd  = false
     @State private var showSend = false
 
-    private var accountState: AccountState { demoPreset.state }
+    private var accountState: AccountState { demoState.accountState }
+    private var demoPreset: Binding<DemoPreset> {
+        Binding(get: { demoState.preset }, set: { demoState.preset = $0 })
+    }
 
     var body: some View {
         NavigationStack {
@@ -20,12 +23,12 @@ struct ProposedHomeView: View {
                             .padding(.top, 4)
 
                         // Demo state switcher
-                        DemoStateSwitcher(preset: $demoPreset)
+                        DemoStateSwitcher(preset: demoPreset)
                             .padding(.horizontal, 24)
 
                         VStack(spacing: 24) {
                             HeaderView()
-                            ProposedBalanceHero(balanceText: demoPreset.balanceDisplay)
+                            ProposedBalanceHero(balanceText: demoState.preset.balanceDisplay)
                             StateAwareActionAreaView(
                                 state: accountState,
                                 onAdd:  { showAdd  = true },

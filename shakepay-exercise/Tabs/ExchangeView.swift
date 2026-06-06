@@ -184,6 +184,7 @@ struct ExchangeView: View {
                     VStack(spacing: 16) {
                         exchangeCards.padding(.top, 12)
                         rateLabel
+                        quickAmounts
                         numPad
                         ctaButton
                         Color.clear.frame(height: 120)
@@ -420,6 +421,31 @@ struct ExchangeView: View {
             RoundedRectangle(cornerRadius: 18, style: .continuous)
                 .stroke(AppTheme.accentBlue.opacity(0.20), lineWidth: 1)
         )
+    }
+
+    // MARK: - Quick amount chips
+
+    private var quickAmounts: some View {
+        HStack(spacing: 10) {
+            ForEach(["$50", "$100", "MAX"], id: \.self) { label in
+                Button {
+                    if label == "MAX" {
+                        enteredAmount = accountState.cashBalance > 0
+                            ? String(Int(accountState.cashBalance)) : "100"
+                    } else {
+                        enteredAmount = label.replacingOccurrences(of: "$", with: "")
+                    }
+                } label: {
+                    Text(label)
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 44)
+                        .background(Capsule().fill(AppTheme.accentBlue))
+                }
+                .buttonStyle(.plain)
+            }
+        }
     }
 
     // MARK: - Number pad
