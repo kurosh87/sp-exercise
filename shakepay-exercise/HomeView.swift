@@ -6,15 +6,25 @@ struct HomeView: View {
             AppTheme.background.ignoresSafeArea()
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
-                    HeaderView()
-                    BalanceHeroView()
-                    ActionButtonsView()
+                    // Padded header block
+                    VStack(spacing: 24) {
+                        HeaderView()
+                        BalanceHeroView()
+                        ActionButtonsView()
+                    }
+                    .padding(.horizontal, 24)
+
+                    // Full-width carousel (manages its own padding)
                     SetupCarouselView(cards: SampleData.setupCards)
-                    assetList
-                    ForYouSectionView(cards: SampleData.forYouCards)
-                    DoMoreGridView(items: SampleData.doMoreItems)
+
+                    // Padded asset list + lower sections
+                    VStack(spacing: 24) {
+                        assetList
+                        ForYouSectionView(cards: SampleData.forYouCards)
+                        DoMoreGridView(items: SampleData.doMoreItems)
+                    }
+                    .padding(.horizontal, 24)
                 }
-                .padding(.horizontal, 24)
                 .padding(.top, 10)
                 .padding(.bottom, 110)
             }

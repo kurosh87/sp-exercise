@@ -11,15 +11,18 @@ struct SetupCarouselView: View {
             TabView(selection: $currentIndex) {
                 ForEach(Array(cards.enumerated()), id: \.element.id) { i, card in
                     SetupCardView(card: card)
+                        // Side padding gives the peek-through effect on adjacent cards
                         .padding(.horizontal, 24)
                         .tag(i)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(maxWidth: .infinity)
             .frame(height: 200)
 
             pageIndicator
         }
+        .frame(maxWidth: .infinity)
     }
 
     private var pageIndicator: some View {
@@ -31,6 +34,7 @@ struct SetupCarouselView: View {
                     .animation(.easeInOut(duration: 0.2), value: currentIndex)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 }
 
@@ -47,7 +51,6 @@ struct SetupCardView: View {
                     .font(.system(size: 11, weight: .bold))
                     .tracking(1.2)
                     .foregroundColor(AppTheme.textMuted)
-                    .textCase(.uppercase)
 
                 Text(card.headline)
                     .font(.system(size: 22, weight: .bold))
@@ -61,7 +64,7 @@ struct SetupCardView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            // Right: illustrated icon block
+            // Right: illustrated icon
             CardIllustrationView(icon: card.icon)
                 .frame(width: 72, height: 72)
                 .padding(.top, 4)
@@ -93,7 +96,7 @@ struct SetupCardView: View {
     }
 }
 
-// MARK: - Reusable illustrated icon
+// MARK: - Reusable illustrated icon tile
 
 struct CardIllustrationView: View {
     let icon: CardIcon
@@ -103,10 +106,10 @@ struct CardIllustrationView: View {
         case .sfSymbol(let name, let color):
             ZStack {
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(color.opacity(0.12))
+                    .fill(color.opacity(0.13))
                     .frame(width: 68, height: 68)
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .stroke(color.opacity(0.20), lineWidth: 1)
+                    .stroke(color.opacity(0.22), lineWidth: 1)
                     .frame(width: 68, height: 68)
                 Image(systemName: name)
                     .font(.system(size: 30, weight: .semibold))
