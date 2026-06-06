@@ -24,7 +24,7 @@ struct VerifyIdentityView: View {
     }
 }
 
-struct RiskProfileView: View {
+struct RiskProfileSheet: View {
     var body: some View {
         SetupSheetPlaceholder(
             icon: "checklist", iconColor: AppTheme.accentBlue,

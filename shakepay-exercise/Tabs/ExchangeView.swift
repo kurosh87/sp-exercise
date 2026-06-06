@@ -150,6 +150,7 @@ struct ExchangeView: View {
     @State private var showOrderSheet = false
     @State private var showPayPicker = false
     @State private var showReceivePicker = false
+    @State private var showRiskProfile = false
 
     @State private var payAsset: ExchangeAsset = assetCatalog[0]     // Cash
     @State private var receiveAsset: ExchangeAsset = assetCatalog[2] // Bitcoin
@@ -198,6 +199,7 @@ struct ExchangeView: View {
         .sheet(isPresented: $showOrderSheet) { OrderTypeSheet(selected: $orderType) }
         .sheet(isPresented: $showPayPicker)  { AssetPickerSheet(selected: $payAsset) }
         .sheet(isPresented: $showReceivePicker) { AssetPickerSheet(selected: $receiveAsset) }
+        .fullScreenCover(isPresented: $showRiskProfile) { RiskProfileView() }
     }
 
     // MARK: - Nav bar
@@ -496,7 +498,9 @@ struct ExchangeView: View {
     // MARK: - CTA button
 
     private var ctaButton: some View {
-        Button {} label: {
+        Button {
+            if ctaState == .needsRiskProfile { showRiskProfile = true }
+        } label: {
             Text(ctaLabel)
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(.white)
