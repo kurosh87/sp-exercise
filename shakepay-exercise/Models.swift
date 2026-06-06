@@ -43,7 +43,22 @@ struct DoMoreItem: Identifiable {
     let gradient: [Color]?
 }
 
+struct ReadinessStep: Identifiable {
+    let id = UUID()
+    let title: String
+    let isComplete: Bool
+    let actionLabel: String?
+}
+
 enum SampleData {
+    static let readinessSteps: [ReadinessStep] = [
+        ReadinessStep(title: "Phone verified", isComplete: true, actionLabel: nil),
+        ReadinessStep(title: "Confirm email", isComplete: false, actionLabel: "Confirm"),
+        ReadinessStep(title: "Verify identity", isComplete: false, actionLabel: "Verify"),
+        ReadinessStep(title: "Complete risk profile", isComplete: false, actionLabel: "Start"),
+        ReadinessStep(title: "Add cash", isComplete: false, actionLabel: "Add cash")
+    ]
+
     static let setupCards: [SetupCard] = [
         SetupCard(label: "SECURITY", headline: "You need to verify your identity", cta: "Verify", emoji: "🔍"),
         SetupCard(label: "SECURITY NOTIFICATION", headline: "Upgrade your account security.", cta: "Learn More", emoji: "🔒"),

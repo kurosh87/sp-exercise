@@ -16,10 +16,12 @@
 		4C0F04DFAA40AEA25E6D5589 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D03D10A3B5A9B402F713C29 /* HomeView.swift */; };
 		642F3836B3F3BB87B8AFAB18 /* BalanceHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42366F740B64D73A092EBAA8 /* BalanceHeroView.swift */; };
 		662CDFC0B8D523DC5FBE2C98 /* AssetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5102E83C09AD223B7700CAC5 /* AssetRowView.swift */; };
+		6EF1A35F50F9390FF3AB8602 /* ProposedHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA3A1444735934A8EE05414 /* ProposedHomeView.swift */; };
 		6EFB945A26ADEFFA7BA38825 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581DF52E26566299A754FF3E /* RootView.swift */; };
 		94B626D1BBFAAAD1278D05CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 883E45800D5A88EFEEEA4D58 /* LaunchScreen.storyboard */; };
 		97ED895AAEBE7A362CA180F2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB776EC533C3539DC5FC76F7 /* PlaceholderView.swift */; };
 		9B1A7389FA6476FA8DE2C360 /* SetupCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C08F1A7BF246E93118A4EED /* SetupCarouselView.swift */; };
+		ACD49C7247315049FC615BA7 /* AccountReadinessCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D8DD3826B1BCFBBDCAC0CF /* AccountReadinessCard.swift */; };
 		B24E2AF1B5F745962B827F95 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4577B2F64531B0DCA5DC8C /* HeaderView.swift */; };
 		C819D79C2815472DD51A4EC9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34A13FEE6DCB2420AE44C3 /* Theme.swift */; };
 		DCF1B5F6334D8F96B91F4C44 /* ForYouCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAE9A9E94755E387EEF7E69 /* ForYouCardView.swift */; };
@@ -28,6 +30,8 @@
 /* Begin PBXFileReference section */
 		0F3D7C205787B416D2A7F480 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		24867D9A7743E43DF9851597 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		2AA3A1444735934A8EE05414 /* ProposedHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposedHomeView.swift; sourceTree = "<group>"; };
+		31D8DD3826B1BCFBBDCAC0CF /* AccountReadinessCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountReadinessCard.swift; sourceTree = "<group>"; };
 		3A4577B2F64531B0DCA5DC8C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		42366F740B64D73A092EBAA8 /* BalanceHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceHeroView.swift; sourceTree = "<group>"; };
 		5102E83C09AD223B7700CAC5 /* AssetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetRowView.swift; sourceTree = "<group>"; };
@@ -57,6 +61,7 @@
 				883E45800D5A88EFEEEA4D58 /* LaunchScreen.storyboard */,
 				8890C7826231B233C765B73F /* Models.swift */,
 				EB776EC533C3539DC5FC76F7 /* PlaceholderView.swift */,
+				2AA3A1444735934A8EE05414 /* ProposedHomeView.swift */,
 				581DF52E26566299A754FF3E /* RootView.swift */,
 				BB34A13FEE6DCB2420AE44C3 /* Theme.swift */,
 				1BB11DFE534D303DAB09E9F6 /* Components */,
@@ -67,6 +72,7 @@
 		1BB11DFE534D303DAB09E9F6 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				31D8DD3826B1BCFBBDCAC0CF /* AccountReadinessCard.swift */,
 				B32C3452F4564C9E78B40439 /* ActionButtonsView.swift */,
 				5102E83C09AD223B7700CAC5 /* AssetRowView.swift */,
 				42366F740B64D73A092EBAA8 /* BalanceHeroView.swift */,
@@ -161,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACD49C7247315049FC615BA7 /* AccountReadinessCard.swift in Sources */,
 				1EE69B0D69DDF589E7A2DF11 /* ActionButtonsView.swift in Sources */,
 				3E788AD30AD2FA7293993F03 /* App.swift in Sources */,
 				662CDFC0B8D523DC5FBE2C98 /* AssetRowView.swift in Sources */,
@@ -172,6 +179,7 @@
 				4C0F04DFAA40AEA25E6D5589 /* HomeView.swift in Sources */,
 				3FA4CD3C8194FF91BDEDC9BE /* Models.swift in Sources */,
 				97ED895AAEBE7A362CA180F2 /* PlaceholderView.swift in Sources */,
+				6EF1A35F50F9390FF3AB8602 /* ProposedHomeView.swift in Sources */,
 				6EFB945A26ADEFFA7BA38825 /* RootView.swift in Sources */,
 				9B1A7389FA6476FA8DE2C360 /* SetupCarouselView.swift in Sources */,
 				C819D79C2815472DD51A4EC9 /* Theme.swift in Sources */,
