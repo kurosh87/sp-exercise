@@ -190,18 +190,13 @@ struct ExchangeView: View {
                         rateLabel
                         quickAmounts
                         numPad
+                        demoPill
                         ctaButton
-                        Color.clear.frame(height: 80)
+                        Color.clear.frame(height: 40)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 20)
                 }
-            }
-            // Floating demo state pill
-            VStack {
-                Spacer()
-                demoPill
-                    .padding(.bottom, 20)
             }
         }
         .toolbar(.hidden, for: .navigationBar)
