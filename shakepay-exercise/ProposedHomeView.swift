@@ -21,7 +21,7 @@ struct ProposedHomeView: View {
                         HeaderView()
                         ProposedBalanceHero(balanceText: demoPreset.balanceDisplay)
                         StateAwareActionAreaView(state: accountState)
-                        AccountReadinessCard(steps: SampleData.readinessSteps)
+                        AccountReadinessCard(state: accountState)
                     }
                     .padding(.horizontal, 24)
 

@@ -3,6 +3,17 @@ import SwiftUI
 struct AccountReadinessCard: View {
     let steps: [ReadinessStep]
 
+    /// Convenience init that derives steps from live AccountState
+    init(state: AccountState) {
+        self.steps = [
+            ReadinessStep(title: "Phone verified",        isComplete: true,                        actionLabel: nil),
+            ReadinessStep(title: "Confirm email",         isComplete: state.emailConfirmed,         actionLabel: "Confirm"),
+            ReadinessStep(title: "Verify identity",       isComplete: state.identityVerified,       actionLabel: "Verify"),
+            ReadinessStep(title: "Complete risk profile", isComplete: state.riskProfileComplete,    actionLabel: "Start"),
+            ReadinessStep(title: "Add cash",              isComplete: state.cashBalance > 0,        actionLabel: "Add cash")
+        ]
+    }
+
     private var completedCount: Int { steps.filter(\.isComplete).count }
 
     var body: some View {
