@@ -205,7 +205,7 @@ The Proposed Home adapts to account state using the segmented control:
 ### Exchange Flow
 
 **Exchange Screen**  
-![Exchange](docs/images/exchange.jpg)  
+![Exchange](docs/images/exchange.png)  
 *Clean one-time exchange. No recurring-buy promo on main screen. "Complete risk profile" CTA appears when needed.*
 
 ---
