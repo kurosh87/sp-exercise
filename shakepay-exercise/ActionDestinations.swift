@@ -1,12 +1,11 @@
 import SwiftUI
 
-// MARK: - Sheet destination views for each action
+// MARK: - Setup flow sheet destinations (not navigation screens)
 
 struct ConfirmEmailView: View {
     var body: some View {
-        ActionSheetPlaceholder(
-            icon: "envelope.fill",
-            iconColor: AppTheme.accentBlue,
+        SetupSheetPlaceholder(
+            icon: "envelope.fill", iconColor: AppTheme.accentBlue,
             title: "Confirm your email",
             subtitle: "We sent a confirmation link to your email address. Check your inbox and tap the link to continue.",
             cta: "Resend email"
@@ -16,9 +15,8 @@ struct ConfirmEmailView: View {
 
 struct VerifyIdentityView: View {
     var body: some View {
-        ActionSheetPlaceholder(
-            icon: "person.badge.shield.checkmark.fill",
-            iconColor: AppTheme.accentBlue,
+        SetupSheetPlaceholder(
+            icon: "person.badge.shield.checkmark.fill", iconColor: AppTheme.accentBlue,
             title: "Verify your identity",
             subtitle: "We need to confirm who you are before you can buy, send, or set up your card.",
             cta: "Start verification"
@@ -28,9 +26,8 @@ struct VerifyIdentityView: View {
 
 struct RiskProfileView: View {
     var body: some View {
-        ActionSheetPlaceholder(
-            icon: "checklist",
-            iconColor: AppTheme.accentBlue,
+        SetupSheetPlaceholder(
+            icon: "checklist", iconColor: AppTheme.accentBlue,
             title: "Complete risk profile",
             subtitle: "Answer a few quick questions about your investment goals and experience.",
             cta: "Start questionnaire"
@@ -38,23 +35,10 @@ struct RiskProfileView: View {
     }
 }
 
-struct AddCashView: View {
-    var body: some View {
-        ActionSheetPlaceholder(
-            icon: "banknote.fill",
-            iconColor: AppTheme.accentBlue,
-            title: "Add cash",
-            subtitle: "Transfer funds from your bank account to start buying crypto.",
-            cta: "Connect bank account"
-        )
-    }
-}
-
 struct ExchangeView: View {
     var body: some View {
-        ActionSheetPlaceholder(
-            icon: "bitcoinsign.circle.fill",
-            iconColor: Color(hex: 0xF7931A),
+        SetupSheetPlaceholder(
+            icon: "bitcoinsign.circle.fill", iconColor: Color(hex: 0xF7931A),
             title: "Buy bitcoin",
             subtitle: "Purchase bitcoin instantly at the current market rate.",
             cta: "Buy BTC"
@@ -62,21 +46,9 @@ struct ExchangeView: View {
     }
 }
 
-struct PaymentsView: View {
-    var body: some View {
-        ActionSheetPlaceholder(
-            icon: "paperplane.fill",
-            iconColor: AppTheme.accentBlue,
-            title: "Send",
-            subtitle: "Send crypto or cash to another Shakepay user.",
-            cta: "Choose recipient"
-        )
-    }
-}
+// MARK: - Shared bottom sheet layout
 
-// MARK: - Shared sheet placeholder layout
-
-private struct ActionSheetPlaceholder: View {
+private struct SetupSheetPlaceholder: View {
     let icon: String
     let iconColor: Color
     let title: String
@@ -87,31 +59,26 @@ private struct ActionSheetPlaceholder: View {
         ZStack {
             AppTheme.background.ignoresSafeArea()
             VStack(spacing: 0) {
-                // Drag handle
                 Capsule()
                     .fill(Color.white.opacity(0.15))
                     .frame(width: 36, height: 4)
                     .padding(.top, 14)
                     .padding(.bottom, 36)
 
-                // Icon
                 ZStack {
-                    Circle()
-                        .fill(iconColor.opacity(0.12))
-                        .frame(width: 80, height: 80)
+                    Circle().fill(iconColor.opacity(0.12)).frame(width: 80, height: 80)
                     Image(systemName: icon)
                         .font(.system(size: 34, weight: .semibold))
                         .foregroundStyle(iconColor)
                         .symbolRenderingMode(.hierarchical)
                 }
 
-                // Text
                 VStack(spacing: 12) {
                     Text(title)
                         .font(.system(size: 26, weight: .bold))
                         .foregroundColor(.white)
                     Text(subtitle)
-                        .font(.system(size: 16, weight: .regular))
+                        .font(.system(size: 16))
                         .foregroundColor(AppTheme.textMuted)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
@@ -120,7 +87,6 @@ private struct ActionSheetPlaceholder: View {
 
                 Spacer()
 
-                // CTA
                 Text(cta)
                     .font(.system(size: 17, weight: .bold))
                     .foregroundColor(.white)

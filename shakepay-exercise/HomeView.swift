@@ -1,33 +1,41 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var showAdd  = false
+    @State private var showSend = false
+
     var body: some View {
-        ZStack {
-            AppTheme.background.ignoresSafeArea()
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
-                    // Padded header block
+        NavigationStack {
+            ZStack {
+                AppTheme.background.ignoresSafeArea()
+                ScrollView(showsIndicators: false) {
                     VStack(spacing: 24) {
-                        HeaderView()
-                        BalanceHeroView()
-                        ActionButtonsView()
-                    }
-                    .padding(.horizontal, 24)
+                        VStack(spacing: 24) {
+                            HeaderView()
+                            BalanceHeroView()
+                            ActionButtonsView(
+                                onAdd:  { showAdd  = true },
+                                onSend: { showSend = true }
+                            )
+                        }
+                        .padding(.horizontal, 24)
 
-                    // Full-width carousel (manages its own padding)
-                    SetupCarouselView(cards: SampleData.setupCards)
+                        SetupCarouselView(cards: SampleData.setupCards)
 
-                    // Padded asset list + lower sections
-                    VStack(spacing: 24) {
-                        assetList
-                        ForYouSectionView(cards: SampleData.forYouCards)
-                        DoMoreGridView(items: SampleData.doMoreItems)
+                        VStack(spacing: 24) {
+                            assetList
+                            ForYouSectionView(cards: SampleData.forYouCards)
+                            DoMoreGridView(items: SampleData.doMoreItems)
+                        }
+                        .padding(.horizontal, 24)
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.top, 10)
+                    .padding(.bottom, 110)
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 110)
             }
+            .navigationBarHidden(true)
+            .navigationDestination(isPresented: $showAdd)  { AddCashView() }
+            .navigationDestination(isPresented: $showSend) { SendView() }
         }
     }
 
